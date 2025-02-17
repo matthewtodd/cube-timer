@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct Cube_TimerApp: App {
+struct CubeTimerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

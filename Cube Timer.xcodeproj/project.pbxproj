@@ -35,16 +35,6 @@
 			path = "Cube Timer";
 			sourceTree = "<group>";
 		};
-		CECF184C2D628EB30077903F /* Cube TimerTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Cube TimerTests";
-			sourceTree = "<group>";
-		};
-		CECF18562D628EB30077903F /* Cube TimerUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Cube TimerUITests";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				CECF183B2D628EB20077903F /* Cube Timer */,
-				CECF184C2D628EB30077903F /* Cube TimerTests */,
-				CECF18562D628EB30077903F /* Cube TimerUITests */,
 				CECF183A2D628EB20077903F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -130,9 +118,6 @@
 			dependencies = (
 				CECF184B2D628EB30077903F /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				CECF184C2D628EB30077903F /* Cube TimerTests */,
-			);
 			name = "Cube TimerTests";
 			packageProductDependencies = (
 			);
@@ -152,9 +137,6 @@
 			);
 			dependencies = (
 				CECF18552D628EB30077903F /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				CECF18562D628EB30077903F /* Cube TimerUITests */,
 			);
 			name = "Cube TimerUITests";
 			packageProductDependencies = (
