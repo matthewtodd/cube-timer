@@ -35,7 +35,7 @@ class CubeTimer: ObservableObject {
     private func start() {
         let startTime = Date()
         state = .running
-        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.019, repeats: true) { _ in
             self.time = .seconds(-startTime.timeIntervalSinceNow)
         }
     }
