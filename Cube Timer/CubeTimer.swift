@@ -7,11 +7,13 @@
 
 import Combine
 import SwiftUICore
+import UIKit
 
 
 class CubeTimer: ObservableObject {
     enum State {
         case zero
+        case countingDown
         case running
         case stopped
     }
@@ -24,7 +26,9 @@ class CubeTimer: ObservableObject {
     func advance() {
         switch state {
         case .zero:
-            start()
+            countDown()
+        case .countingDown:
+            return // no-op
         case .running:
             stop()
         case .stopped:
@@ -32,9 +36,23 @@ class CubeTimer: ObservableObject {
         }
     }
     
+    private func countDown() {
+        let startTime = Date()
+        state = .countingDown
+        UIApplication.shared.isIdleTimerDisabled = true
+        timer = Timer.scheduledTimer(withTimeInterval: 0.019, repeats: true) { _ in
+            self.time = max(.seconds(15 + startTime.timeIntervalSinceNow), .zero)
+            if self.time == .zero {
+                self.timer?.invalidate()
+                self.start()
+            }
+        }
+    }
+
     private func start() {
         let startTime = Date()
         state = .running
+        UIApplication.shared.isIdleTimerDisabled = true
         timer = Timer.scheduledTimer(withTimeInterval: 0.019, repeats: true) { _ in
             self.time = .seconds(-startTime.timeIntervalSinceNow)
         }
@@ -42,6 +60,7 @@ class CubeTimer: ObservableObject {
     
     private func stop() {
         state = .stopped
+        UIApplication.shared.isIdleTimerDisabled = false
         timer?.invalidate()
     }
     
