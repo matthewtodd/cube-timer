@@ -12,10 +12,8 @@ struct ContentView: View {
     
     @ObservedObject var timer = CubeTimer()
     
-    private let format: Duration.TimeFormatStyle = .time(pattern: .minuteSecond(padMinuteToLength: 2, fractionalSecondsLength: 3))
-    
     var body: some View {
-        Text(format.format(timer.time))
+        Text(timer.content)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(UIColor.systemBackground))
             .font(.system(size: 72, design: .monospaced))

@@ -11,18 +11,23 @@ import UIKit
 
 
 class CubeTimer: ObservableObject {
+    static private let PROMPT: String = "👋🏻"
+    static private let COUNTDOWN_TIME: Double = 15.0
+    static private let TIMER_INTERVAL: Double = 0.019
+    static private let FORMAT: Duration.TimeFormatStyle = .time(pattern: .minuteSecond(padMinuteToLength: 2, fractionalSecondsLength: 3))
+
     enum State {
         case zero
         case countingDown
         case running
         case stopped
     }
-    
-    @Published var time: Duration = .zero
-    
+
+    @Published var content: String = PROMPT
+
     private var state: State = .zero
     private var timer: Timer?
-    
+
     func advance() {
         switch state {
         case .zero:
@@ -38,11 +43,17 @@ class CubeTimer: ObservableObject {
     
     private func countDown() {
         let startTime = Date()
+        var time: Double = CubeTimer.COUNTDOWN_TIME
+
         state = .countingDown
         UIApplication.shared.isIdleTimerDisabled = true
-        timer = Timer.scheduledTimer(withTimeInterval: 0.019, repeats: true) { _ in
-            self.time = max(.seconds(15 + startTime.timeIntervalSinceNow), .zero)
-            if self.time == .zero {
+
+        timer = Timer.scheduledTimer(withTimeInterval: CubeTimer.TIMER_INTERVAL, repeats: true) { _ in
+            time = (CubeTimer.COUNTDOWN_TIME + startTime.timeIntervalSinceNow).rounded(.awayFromZero)
+
+            if time > 0.0 {
+                self.content = String(format: "%.0f", time)
+            } else {
                 self.timer?.invalidate()
                 self.start()
             }
@@ -51,10 +62,14 @@ class CubeTimer: ObservableObject {
 
     private func start() {
         let startTime = Date()
+        var time: Double = 0.0
+
         state = .running
         UIApplication.shared.isIdleTimerDisabled = true
-        timer = Timer.scheduledTimer(withTimeInterval: 0.019, repeats: true) { _ in
-            self.time = .seconds(-startTime.timeIntervalSinceNow)
+
+        timer = Timer.scheduledTimer(withTimeInterval: CubeTimer.TIMER_INTERVAL, repeats: true) { _ in
+            time = -startTime.timeIntervalSinceNow
+            self.content = CubeTimer.FORMAT.format(.seconds(time))
         }
     }
     
@@ -66,6 +81,6 @@ class CubeTimer: ObservableObject {
     
     private func reset() {
         state = .zero
-        time = .zero
+        content = CubeTimer.PROMPT
     }
 }
