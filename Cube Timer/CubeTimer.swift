@@ -11,13 +11,13 @@ import UIKit
 
 
 class CubeTimer: ObservableObject {
-    static private let PROMPT: String = "👋🏻"
     static private let COUNTDOWN_TIME: Double = 15.0
+    static private let PROMPT: String = String(format: "%.0f", COUNTDOWN_TIME)
     static private let TIMER_INTERVAL: Double = 0.019
     static private let FORMAT: Duration.TimeFormatStyle = .time(pattern: .minuteSecond(padMinuteToLength: 2, fractionalSecondsLength: 3))
 
     enum State {
-        case zero
+        case ready
         case countingDown
         case running
         case stopped
@@ -25,12 +25,12 @@ class CubeTimer: ObservableObject {
 
     @Published var content: String = PROMPT
 
-    private var state: State = .zero
+    private var state: State = .ready
     private var timer: Timer?
 
     func advance() {
         switch state {
-        case .zero:
+        case .ready:
             countDown()
         case .countingDown:
             return // no-op
@@ -80,7 +80,7 @@ class CubeTimer: ObservableObject {
     }
     
     private func reset() {
-        state = .zero
+        state = .ready
         content = CubeTimer.PROMPT
     }
 }
